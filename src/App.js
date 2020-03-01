@@ -25,6 +25,7 @@ class App extends Component {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
 
+      //TODO: I need to display what's already on the database on page load
       // console.log('what is in firebase now', response.val());
       // const data = response.val();
 
@@ -63,36 +64,57 @@ class App extends Component {
     //TODO: maybe disable the workout plan name input so that it's not changed?
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     
     const dbRef = firebase.database();
     
-    dbRef.ref().push(this.state.tempObjects);
+    dbRef.ref().push({exercises: this.state.tempObjects, counter: 0});
 
+    
     dbRef.ref().on('value', (response) => {
-
+      console.log(response.val())
       const cardArray = [];
 
       response.forEach(item => {
-        
         const singleObj = item.val()[0];
-        const getTheTitle = singleObj.workoutPlanName;
+        // const getTheTitle = singleObj.workoutPlanName;
 
         cardArray.push({
           id: item.key,
-          exercises: item.val(),
-          title: getTheTitle,
+          exercises: item.val().exercises,
+          // title: getTheTitle,
+          counter: item.val().counter,
         })
       })
+
+      console.log(cardArray);
     
       this.setState({
         userObjects: cardArray,
         tempObjects: [],
         workoutPlanName: '',
       })
-      
     });
+  }
+
+  updateCounter = (objInState) => {
+    console.log(this.state.userObjects);
+    const updatedUserObjects = this.state.userObjects.map(userObject => {
+      if(userObject.id === objInState.id) {
+        firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1});
+        return {
+          ...userObject, 
+          counter: userObject.counter += 1
+        }
+      }
+      return userObject;
+    });
+    
+    this.setState({
+      userObjects: updatedUserObjects
+    }, () => console.log("NEW THINGS ", this.state.userObjects))
+    
   }
 
   handleChange = (e) => {
@@ -109,7 +131,6 @@ class App extends Component {
     const dbRef = firebase.database().ref();
 
     dbRef.child(card).remove();
-    console.log('this is state after removing card', this.state);
     
   }
 
@@ -159,6 +180,7 @@ class App extends Component {
       <WorkoutCard 
         userObjects={this.state.userObjects}
         removeCard={this.removeCard}
+        updateCounter={this.updateCounter}
       />
       </Fragment>
     );

@@ -14,6 +14,7 @@ class WorkoutCard extends Component {
             return (
               <div key={obj.id} id={obj.id} className="singleCard">
                 <h2>{obj.title}</h2>
+                <h3>COUNTER: {obj.counter}</h3>
                 {
                   obj.exercises.map(exercise => {
                     return (
@@ -27,6 +28,7 @@ class WorkoutCard extends Component {
                   })
                 }
                 <button onClick={() => { this.props.removeCard(obj.id) }}>Delete Card</button>
+                <button onClick={() => { this.props.updateCounter(obj) }}>Log this workout</button>
               </div>
             )
           })
