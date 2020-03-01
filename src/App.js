@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import './App.css';
+import { v4 as uuidv4 } from 'uuid';import './App.css';
 import firebase from './firebase';
 import WorkoutCard from './WorkoutCard.js';
 
@@ -25,8 +25,7 @@ class App extends Component {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
 
-      // here we use Firebase's .val() method to parse our database info the way we want it
-      // console.log(response.val());
+      // console.log('what is in firebase now', response.val());
       // const data = response.val();
 
       // for (let key in data) {
@@ -47,6 +46,7 @@ class App extends Component {
       sets: this.state.sets,
       weight: this.state.weight,
       rest: this.state.rest,
+      id: uuidv4()
     }
     
     this.setState({
@@ -57,7 +57,7 @@ class App extends Component {
       weight: '',
       rest: '',
     }, () => {
-      console.log('this is temp state', this.state);
+      // console.log('this is temp state', this.state);
       
     })
     //TODO: maybe disable the workout plan name input so that it's not changed?
@@ -66,55 +66,32 @@ class App extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     
-    const dbRef = firebase.database().ref();
+    const dbRef = firebase.database();
     
-    const thisKey = dbRef.push(this.state.tempObjects).key;
-    console.log('the unique key', thisKey);
-    
-    const newDbRef = firebase.database().ref(thisKey);
-    console.log(newDbRef);
-    
-    
-    dbRef.on('value', (response) => {
-      const data = response.val();
+    dbRef.ref().push(this.state.tempObjects);
 
-      console.log('data from firebase i hope is one obj', data);
-      
-      // let newState = [];
-      // newState.push(data);
+    dbRef.ref().on('value', (response) => {
 
-      // const newObj = this.state.userObjects.concat(data);
+      const cardArray = [];
 
+      response.forEach(item => {
+        
+        const singleObj = item.val()[0];
+        const getTheTitle = singleObj.workoutPlanName;
+
+        cardArray.push({
+          id: item.key,
+          exercises: item.val(),
+          title: getTheTitle,
+        })
+      })
+    
       this.setState({
-        userObjects: [...this.state.userObjects, data],
-        // userObjects: newObj,
+        userObjects: cardArray,
         tempObjects: [],
         workoutPlanName: '',
-      }, () => {
-        console.log('this is all of state after submit', this.state);
-        
       })
       
-
-        // newState.push({
-        //   exerciseName: data[key].exerciseName,
-        //   reps: data[key].reps,
-        //   rest: data[key].rest,
-        //   sets: data[key].sets,
-        //   weight: data[key].weight,
-        //   workoutPlanName: data[key].workoutPlanName,
-        //   key: key,
-        // })
-
-      // this.setState({
-      //   userObjects: newState,
-      //   workoutPlanName: '',
-      //   exerciseName: '',
-      //   reps: '',
-      //   sets: '',
-      //   weight: '',
-      //   rest: '',
-      // })
     });
   }
 
