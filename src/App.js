@@ -3,7 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import firebase from './firebase';
 import WorkoutCard from './WorkoutCard.js';
-
+import Logs from './Logs';
+import FormAndCards from './FormAndCards';
+import MainPage from './MainPage';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class App extends Component {
   constructor() {
@@ -18,6 +21,7 @@ class App extends Component {
         sets: '',
         weight: '',
         rest: '',
+        isDisabled: false,
       }
     };
   
@@ -25,9 +29,6 @@ class App extends Component {
   componentDidMount() {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
-
-      console.log('what is in firebase now', response.val());
-
       const cardArray = [];
 
       response.forEach(item => {
@@ -59,7 +60,7 @@ class App extends Component {
       rest: this.state.rest,
       id: uuidv4(),
     }
-    
+
     this.setState({
       tempObjects: [...this.state.tempObjects, singleExerciseObj],
       exerciseName: '',
@@ -67,11 +68,8 @@ class App extends Component {
       sets: '',
       weight: '',
       rest: '',
-    }, () => {
-      // console.log('this is temp state', this.state);
-      
+      isDisabled: true,
     })
-    //TODO: maybe disable the workout plan name input so that it's not changed?
   }
 
   handleSubmit = async (event) => {
@@ -81,6 +79,9 @@ class App extends Component {
     
     dbRef.ref().push({exercises: this.state.tempObjects, counter: 0});
 
+    this.setState({
+      isDisabled: false,
+    })
   }
 
   updateCounter = (objInState) => {
@@ -97,8 +98,8 @@ class App extends Component {
     });
     
     this.setState({
-      userObjects: updatedUserObjects
-    }, () => console.log("NEW THINGS ", this.state.userObjects))
+      userObjects: updatedUserObjects,
+    })
     
   }
 
@@ -116,58 +117,50 @@ class App extends Component {
     const dbRef = firebase.database().ref();
 
     dbRef.child(card).remove();
-    
   }
+  
+  // goToWorkout = () => {
+  //   this.props.history.push(`/workouts/`);
+  // }
+
+  // goToLogs = () => {
+  //   this.props.history.push(`/logs/`);
+  // }
+
 
   render() {
     return (
-      <Fragment>
-      <div className="App">
-        <h1>Workout Plans</h1>
-        <div className="createCard">
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="workoutPlan" className="workoutPlanLabel">Name of workout plan</label>
-            <input type="text" value={this.state.workoutPlanName} onChange={this.handleChange} name="workoutPlanName" placeholder="Workout plan" id="workoutPlan"/>
-  
-            <label htmlFor="exercise" className="visuallyhidden">Name of the exercise</label>
-            <input type="text" value={this.state.exerciseName} onChange={this.handleChange} name="exerciseName" placeholder="Name of the exercise" id="exercise" />
-  
-            <label htmlFor="numberOfSets" className="visuallyhidden">Number of sets</label>
-            <input type="number" value={this.state.sets} onChange={this.handleChange} name="sets" id="numberOfSets" placeholder="Sets"/>
-  
-            <label htmlFor="numberOfReps" className="visuallyhidden">Number of reps</label>
-            <input type="number" value={this.state.reps} onChange={this.handleChange} name="reps" id="numberOfReps" placeholder="Reps"/>
-  
-            <label htmlFor="howMuchWeight" className="visuallyhidden">How much weight are you using</label>
-            <input type="number" value={this.state.weight} onChange={this.handleChange} name="weight" id="howMuchWeight" placeholder="Weight"/>
-  
-            <label htmlFor="restDuration" className="visuallyhidden">How long is your rest</label>
-            <input type="number" value={this.state.rest} onChange={this.handleChange} name="rest" id="restDuration" placeholder="Rest"/>
-  
-            <button onClick={this.handleAddExercise} className="addExerciseButton">Add another exercise</button>
-            <button type="submit">Create Card</button>
-          </form>
-          {
-            this.state.tempObjects.map((obj, index) => {
-              return (
-                <div key={index} className="exerciseLine">
-                  <p>{obj.exerciseName}</p>
-                  <p>{obj.sets}</p>
-                  <p>{obj.reps}</p>
-                  <p>{obj.weight}</p>
-                  <p>{obj.rest}</p>
-                </div>
+      <Router>
+        {/* <Switch> */}
+          <Route exact path="/" component={MainPage} />
+          
+          <Route exact path="/workouts/" render={() => {
+            return (
+              <Fragment>
+                <FormAndCards 
+                  state={this.state}
+                  handleChange={this.handleChange}
+                  handleAddExercise={this.handleAddExercise}
+                  handleSubmit={this.handleSubmit}
+                />
+                <WorkoutCard
+                  userObjects={this.state.userObjects}
+                  removeCard={this.removeCard}
+                  updateCounter={this.updateCounter}
+                />
+              </Fragment>
+              )}}/>
+ 
+          <Route path="/logs/" render={() => {
+            return (
+              <Logs
+                userObjects={this.state.userObjects}
+              />
               )
-            })
-          }
-        </div>
-      </div>  
-      <WorkoutCard 
-        userObjects={this.state.userObjects}
-        removeCard={this.removeCard}
-        updateCounter={this.updateCounter}
-      />
-      </Fragment>
+            }} />
+        {/* </Switch> */}
+
+      </Router>
     );
   }
 }

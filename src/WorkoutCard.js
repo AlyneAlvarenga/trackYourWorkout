@@ -14,7 +14,7 @@ class WorkoutCard extends Component {
             return (
               <div key={obj.id} id={obj.id} className="singleCard">
                 <h2>{obj.title}</h2>
-                <h3>COUNTER: {obj.counter}</h3>
+                {/* <h3>COUNTER: {obj.counter}</h3> */}
                 {
                   obj.exercises.map(exercise => {
                     return (
