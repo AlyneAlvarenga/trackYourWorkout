@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
-import { v4 as uuidv4 } from 'uuid';import './App.css';
+import { v4 as uuidv4 } from 'uuid';
+import './App.css';
 import firebase from './firebase';
 import WorkoutCard from './WorkoutCard.js';
 
@@ -25,15 +26,24 @@ class App extends Component {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
 
-      //TODO: I need to display what's already on the database on page load
-      // console.log('what is in firebase now', response.val());
-      // const data = response.val();
+      console.log('what is in firebase now', response.val());
 
-      // for (let key in data) {
-      //   this.state.userObjects.push(key);
-      //   console.log(key);
-        
-      // }
+      const cardArray = [];
+
+      response.forEach(item => {
+        cardArray.push({
+          id: item.key,
+          exercises: item.val().exercises,
+          title: item.val().exercises[0].workoutPlanName,
+          counter: item.val().counter,
+        })
+      })
+
+      this.setState({
+        userObjects: cardArray,
+        tempObjects: [],
+        workoutPlanName: '',
+      })
     });
   }
 
@@ -47,7 +57,7 @@ class App extends Component {
       sets: this.state.sets,
       weight: this.state.weight,
       rest: this.state.rest,
-      id: uuidv4()
+      id: uuidv4(),
     }
     
     this.setState({
@@ -71,31 +81,6 @@ class App extends Component {
     
     dbRef.ref().push({exercises: this.state.tempObjects, counter: 0});
 
-    
-    dbRef.ref().on('value', (response) => {
-      console.log(response.val())
-      const cardArray = [];
-
-      response.forEach(item => {
-        const singleObj = item.val()[0];
-        // const getTheTitle = singleObj.workoutPlanName;
-
-        cardArray.push({
-          id: item.key,
-          exercises: item.val().exercises,
-          // title: getTheTitle,
-          counter: item.val().counter,
-        })
-      })
-
-      console.log(cardArray);
-    
-      this.setState({
-        userObjects: cardArray,
-        tempObjects: [],
-        workoutPlanName: '',
-      })
-    });
   }
 
   updateCounter = (objInState) => {
