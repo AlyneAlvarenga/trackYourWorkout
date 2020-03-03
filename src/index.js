@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-// import Router from './Router';
+import 'font-awesome/css/font-awesome.min.css';
 import * as serviceWorker from './serviceWorker';
-// import MainPage from './MainPage';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

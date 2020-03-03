@@ -118,20 +118,11 @@ class App extends Component {
 
     dbRef.child(card).remove();
   }
-  
-  // goToWorkout = () => {
-  //   this.props.history.push(`/workouts/`);
-  // }
-
-  // goToLogs = () => {
-  //   this.props.history.push(`/logs/`);
-  // }
 
 
   render() {
     return (
       <Router>
-        {/* <Switch> */}
           <Route exact path="/" component={MainPage} />
           
           <Route exact path="/workouts/" render={() => {
@@ -149,17 +140,16 @@ class App extends Component {
                   updateCounter={this.updateCounter}
                 />
               </Fragment>
-              )}}/>
- 
+            )}}
+          />
+
           <Route path="/logs/" render={() => {
             return (
               <Logs
                 userObjects={this.state.userObjects}
               />
-              )
-            }} />
-        {/* </Switch> */}
-
+            )}} 
+          />
       </Router>
     );
   }

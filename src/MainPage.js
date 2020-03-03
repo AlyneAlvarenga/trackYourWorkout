@@ -10,9 +10,9 @@ class MainPage extends Component {
       	  <h1>Track Your Workouts</h1>
       	  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, doloribus. Voluptates modi repellendus dolores nobis in officia fuga suscipit necessitatibus!</p>
       	  {/* <button onClick={this.goToWorkout}>Create/View Workout Plan</button> */}
-          <Link to="/workouts/">Create/View Workout Plan</Link>
+          <Link to="/workouts/" className="mainPageLinks">Create/View Workout Plan</Link>
           {/* <button onClick={this.goToLogs}>See Logged Workout Plans</button> */}
-          <Link to="/logs/">See Logged Workout Plans</Link>
+          <Link to="/logs/" className="mainPageLinks">See Logged Workout Plans</Link>
       	</div>
       </div>
     )
