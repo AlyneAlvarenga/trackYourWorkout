@@ -1,12 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import './App.css';
 import { FaArrowCircleLeft } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 
 class FormAndCards extends Component {
-
-
   render() {
     return(
       <Fragment>

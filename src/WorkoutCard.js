@@ -3,28 +3,6 @@ import { FaRegTimesCircle, FaCheckCircle } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 
 class WorkoutCard extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      isClicked: false,
-    }
-  }
-
-  
-
-  // isClicked = (obj) => {
-  //   if (obj.isClicked) {
-  //     return (
-  //       <div className="checkmarkIcon">
-  //        <IconContext.Provider value={{ className: 'checkmarkIcon' }}>
-              //   <FaCheckCircle />
-          // </IconContext.Provider >
-  //      </div>
-  //     )
-  //   }
-  //   return 'checkmarkIconHidden'
-  // } 
 
   render() {
     const isClicked = this.props.isClicked ? 'checkmarkIcon' : 'checkmarkIconHidden';

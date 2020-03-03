@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from 'react';
 import { v4 as uuidv4 } from 'uuid';
-// import './App.css';
 import firebase from './firebase';
 import WorkoutCard from './WorkoutCard.js';
 import Logs from './Logs';
@@ -77,8 +76,7 @@ class App extends Component {
     event.preventDefault();
     
     const dbRef = firebase.database();
-    
-    // dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0, isClicked: false });
+
     dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0});
 
     this.setState({
@@ -142,15 +140,6 @@ class App extends Component {
                   handleAddExercise={this.handleAddExercise}
                   handleSubmit={this.handleSubmit}
                 />
-                {/* {
-                  this.state.userObjects.map(obj => {
-                    return (
-                      <WorkoutCard 
-                        removeCard={this.removeCard}
-                        updateCounter={this.updateCounter}
-                      />
-                    )
-                } */}
                 <WorkoutCard
                   userObjects={this.state.userObjects}
                   isClicked={this.state.isClicked}
