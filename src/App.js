@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import './App.css';
+// import './App.css';
 import firebase from './firebase';
 import WorkoutCard from './WorkoutCard.js';
 import Logs from './Logs';
@@ -22,6 +22,7 @@ class App extends Component {
         weight: '',
         rest: '',
         isDisabled: false,
+        isClicked: false,
       }
     };
   
@@ -77,7 +78,8 @@ class App extends Component {
     
     const dbRef = firebase.database();
     
-    dbRef.ref().push({exercises: this.state.tempObjects, counter: 0});
+    // dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0, isClicked: false });
+    dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0});
 
     this.setState({
       isDisabled: false,
@@ -99,8 +101,14 @@ class App extends Component {
     
     this.setState({
       userObjects: updatedUserObjects,
+      isClicked: true,
     })
     
+    setTimeout(() => {
+      this.setState({
+        isClicked: false,
+      })
+    }, 1500)
   }
 
   handleChange = (e) => {
@@ -134,8 +142,18 @@ class App extends Component {
                   handleAddExercise={this.handleAddExercise}
                   handleSubmit={this.handleSubmit}
                 />
+                {/* {
+                  this.state.userObjects.map(obj => {
+                    return (
+                      <WorkoutCard 
+                        removeCard={this.removeCard}
+                        updateCounter={this.updateCounter}
+                      />
+                    )
+                } */}
                 <WorkoutCard
                   userObjects={this.state.userObjects}
+                  isClicked={this.state.isClicked}
                   removeCard={this.removeCard}
                   updateCounter={this.updateCounter}
                 />

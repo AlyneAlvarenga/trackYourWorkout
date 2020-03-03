@@ -1,9 +1,34 @@
 import React, {Component} from 'react';
-import { FaRegTimesCircle } from 'react-icons/fa';
+import { FaRegTimesCircle, FaCheckCircle } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 
 class WorkoutCard extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isClicked: false,
+    }
+  }
+
+  
+
+  // isClicked = (obj) => {
+  //   if (obj.isClicked) {
+  //     return (
+  //       <div className="checkmarkIcon">
+  //        <IconContext.Provider value={{ className: 'checkmarkIcon' }}>
+              //   <FaCheckCircle />
+          // </IconContext.Provider >
+  //      </div>
+  //     )
+  //   }
+  //   return 'checkmarkIconHidden'
+  // } 
+
   render() {
+    const isClicked = this.props.isClicked ? 'checkmarkIcon' : 'checkmarkIconHidden';
+
     //map over user objects array. each index holds an object
     //access the unique key under obj.id
     //access the exercises key which holds an array of exercises
@@ -16,7 +41,6 @@ class WorkoutCard extends Component {
             return (
               <div key={obj.id} id={obj.id} className="singleCard">
                 <h2>{obj.title}</h2>
-                {/* <h3>COUNTER: {obj.counter}</h3> */}
                 {
                   obj.exercises.map(exercise => {
                     return (
@@ -30,7 +54,12 @@ class WorkoutCard extends Component {
                   })
                 }
                 <IconContext.Provider value={{ className: 'deleteIcon' }}><button className="deleteButton" onClick={() => { this.props.removeCard(obj.id) }}><FaRegTimesCircle /></button></IconContext.Provider>
-                <button onClick={() => { this.props.updateCounter(obj) }}>Log this workout</button>
+                <button className="logButton" onClick={() => { this.props.updateCounter(obj) }}>Log this workout</button>
+                <div className={isClicked}>
+                  <IconContext.Provider value={{ className: 'checkmarkIcon' }}>
+                    <FaCheckCircle />
+                  </IconContext.Provider>
+                </div>
               </div>
             )
           })

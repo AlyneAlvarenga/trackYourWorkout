@@ -17,6 +17,15 @@ class FormAndCards extends Component {
         </div>
       <div className="wrapper">
         <h1>Workout Plans</h1>
+        <div className="instructions">
+          <ul>
+            <li>Create a name for your workout plan. This will be the title of your card.</li>
+            <li>Type in the first line of exercise, sets, reps, weight and rest, and click on "Add another exercise."</li>
+            <li>The exercises you just added will appear just below the form.</li>
+            <li>Once you have added all your exercises, click on "Create Card" to create your workout plan.</li>
+            <li>On your card, you can click on "Log this workout" every time you complete that workout plan. You can check how many times you've logged your workout on the "See Logged Workout Plans" page.</li>
+          </ul>
+        </div>
         <div className="createCard">
           <form onSubmit={this.props.handleSubmit}>
             <label htmlFor="workoutPlan" className="workoutPlanLabel">Name of workout plan</label>
@@ -45,10 +54,10 @@ class FormAndCards extends Component {
               return (
                 <div key={index} className="exerciseLine">
                   <p>{obj.exerciseName}</p>
-                  <p>{obj.sets}</p>
-                  <p>{obj.reps}</p>
-                  <p>{obj.weight}</p>
-                  <p>{obj.rest}</p>
+                  <p>{obj.sets} x {obj.reps}</p>
+                  {/* <p>{obj.reps}</p> */}
+                  <p>{obj.weight}lbs</p>
+                  <p>{obj.rest}"</p>
                 </div>
               )
             })
