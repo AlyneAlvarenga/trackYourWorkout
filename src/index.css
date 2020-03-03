@@ -46,6 +46,7 @@ h1 {
 
 h2 {
   font-size: 3rem;
+  margin: 10px 0;
 }
 
 h3 {
@@ -129,7 +130,7 @@ button:hover, .mainPageLinks:hover {
   justify-content: space-evenly;
 }
 
-/* Workout component */
+/* FormAndCards Component */
 
 .wrapper {
   display: flex;
@@ -167,6 +168,10 @@ form {
   justify-content: center;
 }
 
+input {
+  padding: 5px;
+}
+
 .workoutPlanLabel {
   grid-area: workoutPlanLabel;
   font-size: 1.8rem;
@@ -184,22 +189,22 @@ form {
 
 #numberOfSets {
   grid-area: sets;
-  max-width: 80px;
+  max-width: 90px;
 }
 
 #numberOfReps {
   grid-area: reps;
-  max-width: 80px;
+  max-width: 90px;
 }
 
 #howMuchWeight {
   grid-area: weight;
-  max-width: 80px;
+  max-width: 90px;
 }
 
 #restDuration {
   grid-area: rest;
-  max-width: 80px;
+  max-width: 90px;
 }
 
 button[type="submit"] {
@@ -211,7 +216,10 @@ button[type="submit"] {
   align-self: center;
 }
 
+/* WorkoutCard Component */
+
 .workoutCards {
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -219,14 +227,52 @@ button[type="submit"] {
 }
 
 .singleCard {
+  margin-bottom: 50px;
   display: flex;
   flex-direction: column;
   min-width: 500px;
   text-align: center;
+  border: 1px solid var(--accentPink);
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+}
+
+.deleteIcon {
+  font-size: 2.5rem;
+}
+
+.deleteButton {
+  border: none;
+  padding: 0;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+}
+
+.deleteButton:hover {
+  border: none;
 }
 
 .exercisesInCard {
   display: flex;
   align-items: center;
   justify-content: space-around;
+}
+
+/* LOG Component */
+
+.logWrapper {
+  min-height: 400px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  border: 2px solid var(--accentTurquoise);
+  padding: 50px;
+}
+
+.eachLog {
+  border-top: 1px dotted lightgray;
 }

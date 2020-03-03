@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { FaRegTimesCircle } from 'react-icons/fa';
+import { IconContext } from "react-icons";
 
 class WorkoutCard extends Component {
   render() {
@@ -27,7 +29,7 @@ class WorkoutCard extends Component {
                     )
                   })
                 }
-                <button onClick={() => { this.props.removeCard(obj.id) }}>Delete Card</button>
+                <IconContext.Provider value={{ className: 'deleteIcon' }}><button className="deleteButton" onClick={() => { this.props.removeCard(obj.id) }}><FaRegTimesCircle /></button></IconContext.Provider>
                 <button onClick={() => { this.props.updateCounter(obj) }}>Log this workout</button>
               </div>
             )
