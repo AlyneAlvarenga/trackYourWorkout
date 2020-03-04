@@ -11,7 +11,7 @@ class Logs extends Component {
           <h1>Log Counts</h1>
             <div className="backToHomeWrapper">
               <IconContext.Provider value={{ className: 'reactIcons' }}>
-                <Link to="/" className="backToHomeLink"><FaArrowCircleLeft /> Back</Link>
+                <Link to="/trackYourWorkout" className="backToHomeLink"><FaArrowCircleLeft /> Back</Link>
               </IconContext.Provider>
             </div>
             {this.props.userObjects.map((obj) => {

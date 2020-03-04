@@ -9,7 +9,7 @@ class FormAndCards extends Component {
       <Fragment>
         <div className="backToHomeWrapper">
           <IconContext.Provider value={{ className: 'reactIcons' }}>
-            <Link to="/" className="backToHomeLink"><FaArrowCircleLeft /> Back</Link>
+            <Link to="/trackYourWorkout" className="backToHomeLink"><FaArrowCircleLeft /> Back</Link>
           </IconContext.Provider>
         </div>
       <div className="wrapper">
@@ -43,7 +43,7 @@ class FormAndCards extends Component {
             <label htmlFor="restDuration" className="visuallyhidden">How long is your rest</label>
             <input type="number" value={this.props.state.rest} onChange={this.props.handleChange} name="rest" id="restDuration" placeholder="Rest" />
   
-            <button onClick={this.props.handleAddExercise} className="addExerciseButton">Add another exercise</button>
+            <button onClick={this.props.handleAddExercise} className="addExerciseButton">Add exercise</button>
             <button type="submit">Create Card</button>
           </form>
           {
@@ -52,7 +52,6 @@ class FormAndCards extends Component {
                 <div key={index} className="exerciseLine">
                   <p>{obj.exerciseName}</p>
                   <p>{obj.sets} x {obj.reps}</p>
-                  {/* <p>{obj.reps}</p> */}
                   <p>{obj.weight}lbs</p>
                   <p>{obj.rest}"</p>
                 </div>

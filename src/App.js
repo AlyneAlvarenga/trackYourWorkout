@@ -5,7 +5,7 @@ import WorkoutCard from './WorkoutCard.js';
 import Logs from './Logs';
 import FormAndCards from './FormAndCards';
 import MainPage from './MainPage';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
   constructor() {
@@ -30,7 +30,7 @@ class App extends Component {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
       const cardArray = [];
-
+      
       response.forEach(item => {
         cardArray.push({
           id: item.key,
@@ -51,25 +51,29 @@ class App extends Component {
   handleAddExercise = (e) => {
     e.preventDefault();
 
-    const singleExerciseObj = {
-      exerciseName: this.state.exerciseName,
-      workoutPlanName: this.state.workoutPlanName,
-      reps: this.state.reps,
-      sets: this.state.sets,
-      weight: this.state.weight,
-      rest: this.state.rest,
-      id: uuidv4(),
+    if (this.state.workoutPlanName !== '' && this.state.exerciseName !== '') {
+      const singleExerciseObj = {
+        exerciseName: this.state.exerciseName,
+        workoutPlanName: this.state.workoutPlanName,
+        reps: this.state.reps,
+        sets: this.state.sets,
+        weight: this.state.weight,
+        rest: this.state.rest,
+        id: uuidv4(),
+      }
+  
+      this.setState({
+        tempObjects: [...this.state.tempObjects, singleExerciseObj],
+        exerciseName: '',
+        reps: '',
+        sets: '',
+        weight: '',
+        rest: '',
+        isDisabled: true,
+      })
+    } else {
+      alert('Please fill out all fields before clicking "Add Exercise"!');
     }
-
-    this.setState({
-      tempObjects: [...this.state.tempObjects, singleExerciseObj],
-      exerciseName: '',
-      reps: '',
-      sets: '',
-      weight: '',
-      rest: '',
-      isDisabled: true,
-    })
   }
 
   handleSubmit = async (event) => {
@@ -85,7 +89,6 @@ class App extends Component {
   }
 
   updateCounter = (objInState) => {
-    console.log(this.state.userObjects);
     const updatedUserObjects = this.state.userObjects.map(userObject => {
       if(userObject.id === objInState.id) {
         firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1});
@@ -128,10 +131,11 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-          <Route exact path="/" component={MainPage} />
+      <Router basename="/">
+        <Switch>
+        <Route exact path="/trackYourWorkout" component={MainPage} />
           
-          <Route exact path="/workouts/" render={() => {
+          <Route path="/workouts/" render={() => {
             return (
               <Fragment>
                 <FormAndCards 
@@ -157,6 +161,7 @@ class App extends Component {
               />
             )}} 
           />
+        </Switch>
       </Router>
     );
   }
