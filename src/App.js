@@ -81,11 +81,16 @@ class App extends Component {
     
     const dbRef = firebase.database();
 
-    dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0});
+    if (this.state.tempObjects.length >= 1) {
+      dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0});
+  
+      this.setState({
+        isDisabled: false,
+      })
+    } else {
+      alert('Please add at least one exercise to your card!');
+    }
 
-    this.setState({
-      isDisabled: false,
-    })
   }
 
   updateCounter = (objInState) => {
