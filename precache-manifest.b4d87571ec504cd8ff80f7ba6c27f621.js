@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "27c0824f982c5c769ccd01adfc6ed747",
+    "revision": "28404cb615588ccb12e143a6c31e7249",
     "url": "/trackYourWorkout/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/trackYourWorkout/static/css/2.c6740b8a.chunk.css"
   },
   {
-    "revision": "27c4f4f36a876b16e34c",
+    "revision": "9e5c1aa85329bfbae939",
     "url": "/trackYourWorkout/static/css/main.b578bbfa.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/trackYourWorkout/static/js/2.61c4964a.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "27c4f4f36a876b16e34c",
-    "url": "/trackYourWorkout/static/js/main.fa00dc7c.chunk.js"
+    "revision": "9e5c1aa85329bfbae939",
+    "url": "/trackYourWorkout/static/js/main.80b5722e.chunk.js"
   },
   {
     "revision": "779624206a2ea644207d",
