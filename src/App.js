@@ -51,7 +51,7 @@ class App extends Component {
   handleAddExercise = (e) => {
     e.preventDefault();
 
-    if (this.state.workoutPlanName !== '' && this.state.exerciseName !== '') {
+    if (this.state.workoutPlanName !== '' && this.state.exerciseName !== '' && this.state.sets !== '' && this.state.reps !== '' && this.state.weight !== '' && this.state.rest !== '') {
       const singleExerciseObj = {
         exerciseName: this.state.exerciseName,
         workoutPlanName: this.state.workoutPlanName,
