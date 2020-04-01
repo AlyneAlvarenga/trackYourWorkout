@@ -7,6 +7,9 @@ import FormAndCards from './FormAndCards';
 import MainPage from './MainPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import { FaCheckCircle } from 'react-icons/fa';
+import { IconContext } from "react-icons";
+
 class App extends Component {
   constructor() {
     super(); 
@@ -93,28 +96,54 @@ class App extends Component {
 
   }
 
+  showCheckmark = (obj) => {
+    this.state.userObjects.map(userObject => {
+      return (
+        userObject.id === obj.id ?
+          <IconContext.Provider value={{ className: 'checkmarkIcon' }}>
+            <FaCheckCircle />
+          </IconContext.Provider>
+        : null
+      )      
+    })
+
+    setTimeout(() => {
+      this.setState({
+        isClicked: false,
+      })
+    }, 3000)
+  }
+
   updateCounter = (objInState) => {
     const updatedUserObjects = this.state.userObjects.map(userObject => {
       if(userObject.id === objInState.id) {
         firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1});
+
+        // this.showCheckmark(userObject.id);
+
         return {
           ...userObject, 
           counter: userObject.counter += 1
         }
       }
       return userObject;
+      // return (
+      //   <p>Check</p>
+      // )
     });
     
     this.setState({
       userObjects: updatedUserObjects,
       isClicked: true,
+    }, () => {
+        this.showCheckmark(objInState);
     })
     
-    setTimeout(() => {
-      this.setState({
-        isClicked: false,
-      })
-    }, 1500)
+    // setTimeout(() => {
+    //   this.setState({
+    //     isClicked: false,
+    //   })
+    // }, 3000)
   }
 
   handleChange = (e) => {

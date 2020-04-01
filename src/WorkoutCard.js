@@ -33,11 +33,11 @@ class WorkoutCard extends Component {
                 }
                 <IconContext.Provider value={{ className: 'deleteIcon' }}><button className="deleteButton" onClick={() => { this.props.removeCard(obj.id) }}><FaRegTimesCircle /></button></IconContext.Provider>
                 <button className="logButton" onClick={() => { this.props.updateCounter(obj) }}>Log this workout</button>
-                <div className={isClicked}>
+                {/* <div className={isClicked}>
                   <IconContext.Provider value={{ className: 'checkmarkIcon' }}>
                     <FaCheckCircle />
                   </IconContext.Provider>
-                </div>
+                </div> */}
               </div>
             )
           })
