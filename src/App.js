@@ -7,6 +7,9 @@ import FormAndCards from './FormAndCards';
 import MainPage from './MainPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import { FaCheckCircle } from 'react-icons/fa';
+import { IconContext } from "react-icons";
+
 class App extends Component {
   constructor() {
     super(); 
@@ -21,7 +24,7 @@ class App extends Component {
         weight: '',
         rest: '',
         isDisabled: false,
-        isClicked: false,
+        // isClicked: false,
       }
     };
   
@@ -82,7 +85,7 @@ class App extends Component {
     const dbRef = firebase.database();
 
     if (this.state.tempObjects.length >= 1) {
-      dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0});
+      dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0, isLogged: false});
   
       this.setState({
         isDisabled: false,
@@ -93,13 +96,33 @@ class App extends Component {
 
   }
 
+  removeCheckmark = (obj) => {
+    setTimeout(() => {
+      const updatedUserObjects = this.state.userObjects.map(userObject => {
+        if (userObject.id === obj.id) {
+          firebase.database().ref(`${userObject.id}`).update({isLogged: false})
+          return {
+            ...userObject,
+            isLogged: false,
+          }
+        }
+        return userObject;
+      })
+      this.setState({
+        userObjects: updatedUserObjects,
+      })
+    }, 2000)
+  }
+
   updateCounter = (objInState) => {
     const updatedUserObjects = this.state.userObjects.map(userObject => {
       if(userObject.id === objInState.id) {
-        firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1});
+        firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1, isLogged: true});
+
         return {
           ...userObject, 
-          counter: userObject.counter += 1
+          counter: userObject.counter += 1,
+          isLogged: true
         }
       }
       return userObject;
@@ -107,14 +130,9 @@ class App extends Component {
     
     this.setState({
       userObjects: updatedUserObjects,
-      isClicked: true,
+    }, () => {
+        this.removeCheckmark(objInState);
     })
-    
-    setTimeout(() => {
-      this.setState({
-        isClicked: false,
-      })
-    }, 1500)
   }
 
   handleChange = (e) => {
@@ -151,7 +169,7 @@ class App extends Component {
                 />
                 <WorkoutCard
                   userObjects={this.state.userObjects}
-                  isClicked={this.state.isClicked}
+                  // isClicked={this.state.isClicked}
                   removeCard={this.removeCard}
                   updateCounter={this.updateCounter}
                 />
