@@ -24,7 +24,7 @@ class App extends Component {
         weight: '',
         rest: '',
         isDisabled: false,
-        isClicked: false,
+        // isClicked: false,
       }
     };
   
@@ -85,7 +85,7 @@ class App extends Component {
     const dbRef = firebase.database();
 
     if (this.state.tempObjects.length >= 1) {
-      dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0});
+      dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0, isLogged: false});
   
       this.setState({
         isDisabled: false,
@@ -96,54 +96,43 @@ class App extends Component {
 
   }
 
-  showCheckmark = (obj) => {
-    this.state.userObjects.map(userObject => {
-      return (
-        userObject.id === obj.id ?
-          <IconContext.Provider value={{ className: 'checkmarkIcon' }}>
-            <FaCheckCircle />
-          </IconContext.Provider>
-        : null
-      )      
-    })
-
+  removeCheckmark = (obj) => {
     setTimeout(() => {
-      this.setState({
-        isClicked: false,
+      const updatedUserObjects = this.state.userObjects.map(userObject => {
+        if (userObject.id === obj.id) {
+          firebase.database().ref(`${userObject.id}`).update({isLogged: false})
+          return {
+            ...userObject,
+            isLogged: false,
+          }
+        }
+        return userObject;
       })
-    }, 3000)
+      this.setState({
+        userObjects: updatedUserObjects,
+      })
+    }, 2000)
   }
 
   updateCounter = (objInState) => {
     const updatedUserObjects = this.state.userObjects.map(userObject => {
       if(userObject.id === objInState.id) {
-        firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1});
-
-        // this.showCheckmark(userObject.id);
+        firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1, isLogged: true});
 
         return {
           ...userObject, 
-          counter: userObject.counter += 1
+          counter: userObject.counter += 1,
+          isLogged: true
         }
       }
       return userObject;
-      // return (
-      //   <p>Check</p>
-      // )
     });
     
     this.setState({
       userObjects: updatedUserObjects,
-      isClicked: true,
     }, () => {
-        this.showCheckmark(objInState);
+        this.removeCheckmark(objInState);
     })
-    
-    // setTimeout(() => {
-    //   this.setState({
-    //     isClicked: false,
-    //   })
-    // }, 3000)
   }
 
   handleChange = (e) => {
@@ -180,7 +169,7 @@ class App extends Component {
                 />
                 <WorkoutCard
                   userObjects={this.state.userObjects}
-                  isClicked={this.state.isClicked}
+                  // isClicked={this.state.isClicked}
                   removeCard={this.removeCard}
                   updateCounter={this.updateCounter}
                 />

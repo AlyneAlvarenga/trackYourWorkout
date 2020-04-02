@@ -5,8 +5,6 @@ import { IconContext } from "react-icons";
 class WorkoutCard extends Component {
 
   render() {
-    const isClicked = this.props.isClicked ? 'checkmarkIcon' : 'checkmarkIconHidden';
-
     //map over user objects array. each index holds an object
     //access the unique key under obj.id
     //access the exercises key which holds an array of exercises
@@ -33,11 +31,15 @@ class WorkoutCard extends Component {
                 }
                 <IconContext.Provider value={{ className: 'deleteIcon' }}><button className="deleteButton" onClick={() => { this.props.removeCard(obj.id) }}><FaRegTimesCircle /></button></IconContext.Provider>
                 <button className="logButton" onClick={() => { this.props.updateCounter(obj) }}>Log this workout</button>
-                {/* <div className={isClicked}>
-                  <IconContext.Provider value={{ className: 'checkmarkIcon' }}>
-                    <FaCheckCircle />
-                  </IconContext.Provider>
-                </div> */}
+                {
+                  obj.isLogged ?
+                    <div className="checkmarkIcon">
+                      <IconContext.Provider value={{ className: 'checkmarkIcon' }}>
+                        <FaCheckCircle />
+                      </IconContext.Provider>
+                    </div>
+                    : null
+                }
               </div>
             )
           })
