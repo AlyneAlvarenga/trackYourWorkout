@@ -7,9 +7,6 @@ import FormAndCards from './FormAndCards';
 import MainPage from './MainPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { FaCheckCircle } from 'react-icons/fa';
-import { IconContext } from "react-icons";
-
 class App extends Component {
   constructor() {
     super(); 
@@ -24,7 +21,10 @@ class App extends Component {
         weight: '',
         rest: '',
         isDisabled: false,
-        // isClicked: false,
+        signUpEmail: '',
+        signUpPassword: '',
+        isSignedIn: false,
+        currentUser: null,
       }
     };
   
@@ -151,12 +151,36 @@ class App extends Component {
     dbRef.child(card).remove();
   }
 
+  handleSignUp = (e) => {
+    e.preventDefault();
+    firebase.auth().createUserWithEmailAndPassword(this.state.signUpEmail, this.state.signUpPassword).then( (response) => {
+      console.log(response.user);
+      
+    });
+  }
+
+  handleLogOut = (e) => {
+    e.preventDefault();
+    firebase.auth().signOut().then(() => {
+      console.log('User has been logged out.');
+      
+    });
+  }
 
   render() {
     return (
       <Router basename="/">
         <Switch>
-        <Route exact path="/trackYourWorkout" component={MainPage} />
+        <Route exact path="/trackYourWorkout" render={() => {
+          return (
+            <MainPage 
+              state={this.state}
+              handleChange={this.handleChange}
+              handleSignUp={this.handleSignUp}
+              handleLogOut={this.handleLogOut}
+            />
+          )
+        }} />
           
           <Route path="/workouts/" render={() => {
             return (

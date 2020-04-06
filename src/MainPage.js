@@ -6,6 +6,23 @@ class MainPage extends Component {
   render() {
     return (
       <div className="flexContainer">
+        <div className="signUpContainer">
+          <form onSubmit={this.props.handleSignUp}>
+            <h2>Sign Up</h2>
+            <input type="email" placeholder="Email" value={this.props.state.signUpEmail} name="email" onChange={this.props.handleChange}/>
+            <input type="password" placeholder="Password" value={this.props.state.signUpPassword} name="password" onChange={this.props.handleChange}/>
+            <button type="submit">Sign Up</button>
+          </form>
+          <button onClick={this.props.handleLogOut}>Log Out</button>
+        </div>
+        <div className="signInContainer">
+          <h2>Sign In</h2>
+          <form>
+            <input type="email" placeholder="Email" value={this.props.state.email} name="email" onChange={this.props.handleChange} />
+            <input type="password" placeholder="Password" value={this.props.state.password} name="password" onChange={this.props.handleChange} />
+            <button type="submit">Sign In</button>
+          </form>
+        </div>
         <div className="mainPage">
           <h1>Track Your Workouts</h1>
           <div>
