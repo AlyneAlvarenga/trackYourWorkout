@@ -23,6 +23,8 @@ class App extends Component {
         isDisabled: false,
         signUpEmail: '',
         signUpPassword: '',
+        signInEmail: '',
+        signInPassword: '',
         isSignedIn: false,
         currentUser: null,
       }
@@ -30,25 +32,44 @@ class App extends Component {
   
 
   componentDidMount() {
-    const dbRef = firebase.database().ref();
-    dbRef.on('value', (response) => {
-      const cardArray = [];
-      
-      response.forEach(item => {
-        cardArray.push({
-          id: item.key,
-          exercises: item.val().exercises,
-          title: item.val().exercises[0].workoutPlanName,
-          counter: item.val().counter,
-        })
-      })
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // console.log('logged in', user);
+        
+        this.setState({
+          isSignedIn: true,
+          currentUser: user.uid,
+        }, () => {
+            const dbRef = firebase.database().ref(`${this.state.currentUser}`);
+            dbRef.on('value', (response) => {
+              const cardArray = [];
+              // console.log(response.val());
 
-      this.setState({
-        userObjects: cardArray,
-        tempObjects: [],
-        workoutPlanName: '',
-      })
-    });
+              response.forEach(item => {
+                cardArray.push({
+                  id: item.key,
+                  exercises: item.val().exercises,
+                  title: item.val().exercises[0].workoutPlanName,
+                  counter: item.val().counter,
+                })
+              })
+
+              this.setState({
+                userObjects: cardArray,
+                tempObjects: [],
+                workoutPlanName: '',
+              })
+            });
+        })
+
+      } else {
+        console.log('logged out');
+        
+      }
+      
+    })
+
+    
   }
 
   handleAddExercise = (e) => {
@@ -85,7 +106,7 @@ class App extends Component {
     const dbRef = firebase.database();
 
     if (this.state.tempObjects.length >= 1) {
-      dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0, isLogged: false});
+      dbRef.ref(`${this.state.currentUser}`).push({ exercises: this.state.tempObjects, counter: 0, isLogged: false});
   
       this.setState({
         isDisabled: false,
@@ -100,7 +121,9 @@ class App extends Component {
     setTimeout(() => {
       const updatedUserObjects = this.state.userObjects.map(userObject => {
         if (userObject.id === obj.id) {
-          firebase.database().ref(`${userObject.id}`).update({isLogged: false})
+          const id = userObject.id;
+
+          firebase.database().ref(`${this.state.currentUser}/${id}`).update({isLogged: false})
           return {
             ...userObject,
             isLogged: false,
@@ -116,8 +139,12 @@ class App extends Component {
 
   updateCounter = (objInState) => {
     const updatedUserObjects = this.state.userObjects.map(userObject => {
+      const id = userObject.id;
+
       if(userObject.id === objInState.id) {
-        firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1, isLogged: true});
+        firebase.database().ref(`${this.state.currentUser}/${id}`).update({counter: userObject.counter + 1, isLogged: true});
+
+        // dbRef.ref(`${userObject.id}`)
 
         return {
           ...userObject, 
@@ -146,7 +173,7 @@ class App extends Component {
   }
 
   removeCard = (card) => {
-    const dbRef = firebase.database().ref();
+    const dbRef = firebase.database().ref(`${this.state.currentUser}`);
 
     dbRef.child(card).remove();
   }
@@ -154,17 +181,44 @@ class App extends Component {
   handleSignUp = (e) => {
     e.preventDefault();
     firebase.auth().createUserWithEmailAndPassword(this.state.signUpEmail, this.state.signUpPassword).then( (response) => {
-      console.log(response.user);
+      // console.log(response.user);
       
+      // const newUserInDb = {
+      //   [response.user.uid]: [],
+      // }
+
+      // console.log(newUserInDb);
+      
+      // firebase.database().ref('users').set(newUserInDb);
+
+      this.setState({
+        signUpEmail: '',
+        signUpPassword: '',
+      })
     });
+  }
+
+  handleSignIn = (e) => {
+    e.preventDefault();
+    
+    firebase.auth().signInWithEmailAndPassword(this.state.signInEmail, this.state.signInPassword).then(response => {
+      // console.log(response.user);
+      
+      this.setState({
+        signInEmail: '',
+        signInPassword: '',
+      })
+    })
+
   }
 
   handleLogOut = (e) => {
     e.preventDefault();
-    firebase.auth().signOut().then(() => {
-      console.log('User has been logged out.');
-      
-    });
+    firebase.auth().signOut();
+
+    this.setState({
+      isSignedIn: false,
+    })
   }
 
   render() {
@@ -178,6 +232,7 @@ class App extends Component {
               handleChange={this.handleChange}
               handleSignUp={this.handleSignUp}
               handleLogOut={this.handleLogOut}
+              handleSignIn={this.handleSignIn}
             />
           )
         }} />
