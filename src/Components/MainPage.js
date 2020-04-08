@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import { Link } from 'react-router-dom';
+import Header from './Header';
 
 class MainPage extends Component {
 
@@ -8,19 +9,25 @@ class MainPage extends Component {
       <div className="flexContainer">
         {
           this.props.state.isSignedIn ?
-            <div className="mainPage">
-              <h1>Track Your Workouts</h1>
-              <div>
-                <p>Keep track of all your workout plans! Create as many cards as you need, and see how many times you've completed each plan.</p>
-                <p>Click on "Create/View Workout Plan" to begin. If you want to see how many times you've completed a plan, click on "See Logged Workout Plans".</p>
+            <Fragment>
+              <Header 
+                currentUserEmail={this.props.state.currentUserEmail} 
+                handleLogOut={this.props.handleLogOut}
+              />
+              <div className="mainPage">
+                <h1>Track Your Workouts</h1>
+                <div>
+                  <p>Keep track of all your workout plans! Create as many cards as you need, and see how many times you've completed each plan.</p>
+                  <p>Click on "Create/View Workout Plan" to begin. If you want to see how many times you've completed a plan, click on "See Logged Workout Plans".</p>
+                </div>
+                <Link to="/workouts/" className="mainPageLinks">Create/View Workout Plan</Link>
+                <Link to="/logs/" className="mainPageLinks">See Logged Workout Plans</Link>
+                {/* <div className="logOutContainer">
+                  <h3>You are logged in as {this.props.state.currentUserEmail}</h3>
+                  <button onClick={this.props.handleLogOut}>Log Out</button>
+                </div> */}
               </div>
-              <Link to="/workouts/" className="mainPageLinks">Create/View Workout Plan</Link>
-              <Link to="/logs/" className="mainPageLinks">See Logged Workout Plans</Link>
-              <div className="logOutContainer">
-                <h3>You are logged in as {this.props.state.currentUserEmail}</h3>
-                <button onClick={this.props.handleLogOut}>Log Out</button>
-              </div>
-            </div>
+            </Fragment>
           : 
             <div className="mainPage">
               <h1>Track Your Workouts</h1>

@@ -250,10 +250,10 @@ class App extends Component {
                   handleChange={this.handleChange}
                   handleAddExercise={this.handleAddExercise}
                   handleSubmit={this.handleSubmit}
+                  handleLogOut={this.handleLogOut}
                 />
                 <WorkoutCard
                   userObjects={this.state.userObjects}
-                  // isClicked={this.state.isClicked}
                   removeCard={this.removeCard}
                   updateCounter={this.updateCounter}
                 />
@@ -265,6 +265,8 @@ class App extends Component {
             return (
               <Logs
                 userObjects={this.state.userObjects}
+                handleLogOut={this.handleLogOut}
+                currentUserEmail={this.state.currentUserEmail}
               />
             )}} 
           />
