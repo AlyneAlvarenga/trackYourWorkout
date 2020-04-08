@@ -89,9 +89,6 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
 }
 
 .backToHomeLink {
-  position: absolute;
-  left: 15px;
-  top: 15px;
   text-decoration: none;
   font-size: 2rem;
   width: 77px;
@@ -105,11 +102,20 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
 }
 
 /* Header Styles */
+header {
+  border-bottom: 1px solid white;
+}
+
+header button {
+  padding: 15px;
+}
+
 .headerWrapper {
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  grid-template-areas: ". text button";
+  grid-template-columns: auto 1fr auto auto;
+  grid-template-areas: "link . text button";
   grid-gap: 25px;
+  align-items: center;
 }
 
 .headerWrapper h3 {
@@ -120,11 +126,16 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
   grid-area: button;
 }
 
+.headerWrapper .backToHomeWrapper {
+  grid-area: link;
+}
+
 /* Main Page Styles */
 
 /* Sign in, Sign Up */
 
 .formPage {
+  margin-top: 30px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 25px;

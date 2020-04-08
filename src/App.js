@@ -35,8 +35,6 @@ class App extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('logged in', user);
-        
         this.setState({
           isSignedIn: true,
           currentUser: user.uid,
@@ -45,7 +43,6 @@ class App extends Component {
             const dbRef = firebase.database().ref(`${this.state.currentUser}`);
             dbRef.on('value', (response) => {
               const cardArray = [];
-              // console.log(response.val());
 
               response.forEach(item => {
                 cardArray.push({
@@ -146,8 +143,6 @@ class App extends Component {
       if(userObject.id === objInState.id) {
         firebase.database().ref(`${this.state.currentUser}/${id}`).update({counter: userObject.counter + 1, isLogged: true});
 
-        // dbRef.ref(`${userObject.id}`)
-
         return {
           ...userObject, 
           counter: userObject.counter += 1,
@@ -183,15 +178,6 @@ class App extends Component {
   handleSignUp = (e) => {
     e.preventDefault();
     firebase.auth().createUserWithEmailAndPassword(this.state.signUpEmail, this.state.signUpPassword).then( (response) => {
-      // console.log(response.user);
-      
-      // const newUserInDb = {
-      //   [response.user.uid]: [],
-      // }
-
-      // console.log(newUserInDb);
-      
-      // firebase.database().ref('users').set(newUserInDb);
 
       this.setState({
         signUpEmail: '',
@@ -204,7 +190,6 @@ class App extends Component {
     e.preventDefault();
     
     firebase.auth().signInWithEmailAndPassword(this.state.signInEmail, this.state.signInPassword).then(response => {
-      // console.log(response.user);
       
       this.setState({
         signInEmail: '',
