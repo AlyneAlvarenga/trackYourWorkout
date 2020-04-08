@@ -66,6 +66,7 @@ button, .mainPageLinks {
   align-self: center;
   font-weight: bold;
   transition: all 500ms;
+  cursor: pointer;
 }
 
 .mainPageLinks {
@@ -105,6 +106,34 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
 
 /* Main Page Styles */
 
+/* Sign in, Sign Up */
+
+.formPage {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 25px;
+}
+
+.signUpSignInForm {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "email"
+                        "password"
+                        "signUpButton";
+}
+
+.signUpSignInForm input[type="email"] {
+  grid-area: email;
+}
+
+.signUpSignInForm input[type="password"] {
+  grid-area: password;
+}
+
+.signUpSignInForm button[type="submit"] {
+  grid-area: signUpButton;
+}
+
 .flexContainer {
   min-height: 100vh;
   display: flex;
@@ -115,7 +144,7 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
 
 .mainPage {
   max-width: 600px;
-  min-height: 500px;
+  min-height: 550px;
   padding: 20px;
   margin: 0 auto;
   text-align: center;
@@ -124,6 +153,15 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+}
+
+.logOutContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logOutContainer button {
+  margin-left: 10px;
 }
 
 /* FormAndCards Component */

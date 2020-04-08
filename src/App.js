@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import firebase from './firebase';
-import WorkoutCard from './WorkoutCard.js';
-import Logs from './Logs';
-import FormAndCards from './FormAndCards';
-import MainPage from './MainPage';
+import WorkoutCard from './Components/WorkoutCard.js';
+import Logs from './Components/Logs';
+import FormAndCards from './Components/FormAndCards';
+import MainPage from './Components/MainPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
@@ -27,6 +27,7 @@ class App extends Component {
         signInPassword: '',
         isSignedIn: false,
         currentUser: null,
+        currentUserEmail: '',
       }
     };
   
@@ -34,11 +35,12 @@ class App extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        // console.log('logged in', user);
+        console.log('logged in', user);
         
         this.setState({
           isSignedIn: true,
           currentUser: user.uid,
+          currentUserEmail: user.email,
         }, () => {
             const dbRef = firebase.database().ref(`${this.state.currentUser}`);
             dbRef.on('value', (response) => {
@@ -218,6 +220,9 @@ class App extends Component {
 
     this.setState({
       isSignedIn: false,
+      currentUserEmail: '',
+      currentUser: null,
+      userObjects: [],
     })
   }
 
