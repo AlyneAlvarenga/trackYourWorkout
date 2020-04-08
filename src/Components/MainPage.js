@@ -6,14 +6,15 @@ class MainPage extends Component {
 
   render() {
     return (
-      <div className="flexContainer">
+      <main>
         {
           this.props.state.isSignedIn ?
-            <Fragment>
-              <Header 
-                currentUserEmail={this.props.state.currentUserEmail} 
-                handleLogOut={this.props.handleLogOut}
-              />
+          <Fragment>
+            <Header 
+              currentUserEmail={this.props.state.currentUserEmail} 
+              handleLogOut={this.props.handleLogOut}
+            />
+            <div className="flexContainer">
               <div className="mainPage">
                 <h1>Track Your Workouts</h1>
                 <div>
@@ -27,9 +28,10 @@ class MainPage extends Component {
                   <button onClick={this.props.handleLogOut}>Log Out</button>
                 </div> */}
               </div>
-            </Fragment>
+            </div>
+          </Fragment>
           : 
-            <div className="mainPage">
+            <main className="mainPage">
               <h1>Track Your Workouts</h1>
               <p>Keep track of all your workout plans! Create as many cards as you need, and see how many times you've completed each plan.</p>
               <p>Log in or sign up to get started.</p>
@@ -60,10 +62,10 @@ class MainPage extends Component {
 
               </div>
               {/* /.formPage */}
-            </div>
+            </main>
             // /.mainPage
         }
-      </div>
+      </main>
     )
   }
 }

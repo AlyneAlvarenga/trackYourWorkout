@@ -104,6 +104,22 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
   color: var(--accentTurquoise);
 }
 
+/* Header Styles */
+.headerWrapper {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-template-areas: ". text button";
+  grid-gap: 25px;
+}
+
+.headerWrapper h3 {
+  grid-area: text;
+}
+
+.headerWrapper button {
+  grid-area: button;
+}
+
 /* Main Page Styles */
 
 /* Sign in, Sign Up */
@@ -144,7 +160,7 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
 
 .mainPage {
   max-width: 600px;
-  min-height: 550px;
+  min-height: 500px;
   padding: 20px;
   margin: 0 auto;
   text-align: center;
@@ -155,16 +171,12 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
   justify-content: space-evenly;
 }
 
-.logOutContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.logOutContainer button {
-  margin-left: 10px;
-}
-
 /* FormAndCards Component */
+
+.wrapper, .headerWrapper {
+  max-width: 1500px;
+  margin: 0 auto;
+}
 
 .wrapper {
   display: flex;
