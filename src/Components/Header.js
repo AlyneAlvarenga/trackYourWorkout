@@ -2,11 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowCircleLeft } from 'react-icons/fa';
 import { IconContext } from "react-icons";
-import {useLocation} from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 function Header(props) {
 
   let location = useLocation();
+
+  const history = useHistory();
+
+  const startLogOut = () => {
+    history.push('/trackYourWorkout');
+    props.handleLogOut();
+  }
 
   return (
     <header>
@@ -21,7 +28,7 @@ function Header(props) {
           : null
         }
         <h3>You are logged in as {props.currentUserEmail}</h3>
-        <button onClick={props.handleLogOut}>Log Out</button>
+        <button onClick={startLogOut}>Log Out</button>
       </div>
     </header>
   )

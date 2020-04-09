@@ -8,7 +8,7 @@ function Logs(props) {
         handleLogOut={props.handleLogOut}
         currentUserEmail={props.currentUserEmail}
       />
-      <div className="flexContainer">
+      <div className="flexContainerSignedIn">
         <div className="logWrapper">
         <h1>Log Counts</h1>
           {props.userObjects.map((obj) => {

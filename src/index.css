@@ -104,6 +104,8 @@ button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
 /* Header Styles */
 header {
   border-bottom: 1px solid white;
+  min-height: 80px;
+  margin-bottom: 50px;
 }
 
 header button {
@@ -161,17 +163,24 @@ header button {
   grid-area: signUpButton;
 }
 
-.flexContainer {
-  min-height: 100vh;
+.flexContainerLoggedOut, .flexContainerSignedIn {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.flexContainerSignedIn {
+  min-height: calc(100vh - 130px);
+}
+
+.flexContainerLoggedOut {
+  min-height: 100vh;
+}
+
 .mainPage {
   max-width: 600px;
-  min-height: 500px;
+  min-height: 600px;
   padding: 20px;
   margin: 0 auto;
   text-align: center;
@@ -180,12 +189,13 @@ header button {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  line-height: 1.5;
 }
 
 /* FormAndCards Component */
 
 .wrapper, .headerWrapper {
-  max-width: 1500px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -371,7 +381,38 @@ button[type="submit"] {
 
 /* MEDIA QUERIES */
 
+@media (max-width: 1460px) {
+  /* HEADER */
+  .headerWrapper {
+    width: 85%;
+  }
+}
+
 @media (max-width: 880px) {
+
+  /* HEADER */
+  .headerWrapper {
+    grid-template-columns: 1fr;
+    grid-template-areas: "link"
+                          "text"
+                          "button";
+    grid-gap: 10px;
+  }
+
+  header h3 {
+    text-align: center;
+    margin: 15px 0 10px;
+  }
+
+  .headerWrapper button {
+    justify-self: center;
+    margin-bottom: 20px;
+  }
+
+  .backToHomeWrapper {
+    margin: 20px auto 0;
+  }
+
   /* FORM AND CARDS COMPONENT */
   .instructions {
     max-width: 80%;
@@ -419,7 +460,19 @@ button[type="submit"] {
   .mainPage {
     margin: 60px 0;
     max-width: 400px;
-    min-height: 600px;
+    min-height: auto;
+  }
+
+  .mainPageLinks {
+    margin-bottom: 20px;
+  }
+
+  .formPage {
+    grid-template-columns: 1fr;
+  }
+
+  .signUpContainer {
+    margin-bottom: 30px;
   }
 }
 
@@ -465,12 +518,6 @@ button[type="submit"] {
 
 @media (max-width: 475px) {
   /* FORM AND CARDS COMPONENT */
-  .backToHomeLink {
-    flex-direction: column;
-    left: -3px;
-    top: 12px;
-  }
-
   .wrapper h1 {
     margin-top: 80px;
   }

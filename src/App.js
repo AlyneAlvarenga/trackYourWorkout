@@ -61,11 +61,7 @@ class App extends Component {
             });
         })
 
-      } else {
-        console.log('logged out');
-        
       }
-      
     })
 
     
@@ -177,7 +173,26 @@ class App extends Component {
 
   handleSignUp = (e) => {
     e.preventDefault();
+
     firebase.auth().createUserWithEmailAndPassword(this.state.signUpEmail, this.state.signUpPassword).then( (response) => {
+
+      this.setState({
+        signUpEmail: '',
+        signUpPassword: '',
+      })
+    }).catch(err => {
+      const errorCode = err.code;
+      const errorMessage = err.message;
+
+      if (errorCode === 'auth/weak-password') {
+        alert('The password is too weak. Please use at least 6 characters.');
+      } else if (errorCode === 'auth/email-already-in-use') {
+        alert('This email has already been used to sign up. Please sign in with your email and password.')
+      } else if (errorCode === 'auth/invalid-email') {
+        alert('Please use a valid email address');
+      } else {
+        alert(errorMessage);
+      }
 
       this.setState({
         signUpEmail: '',
@@ -189,18 +204,25 @@ class App extends Component {
   handleSignIn = (e) => {
     e.preventDefault();
     
-    firebase.auth().signInWithEmailAndPassword(this.state.signInEmail, this.state.signInPassword).then(response => {
-      
+    firebase.auth().signInWithEmailAndPassword(this.state.signInEmail, this.state.signInPassword).then(() => {
+        this.setState({
+          signInEmail: '',
+          signInPassword: '',
+        })
+
+    }).catch(() => {
+      alert('You have entered an invalid email and password combination. Please try again.');
+
       this.setState({
         signInEmail: '',
         signInPassword: '',
       })
+      
     })
 
   }
 
-  handleLogOut = (e) => {
-    e.preventDefault();
+  handleLogOut = () => {
     firebase.auth().signOut();
 
     this.setState({
@@ -209,6 +231,7 @@ class App extends Component {
       currentUser: null,
       userObjects: [],
     })
+
   }
 
   render() {
