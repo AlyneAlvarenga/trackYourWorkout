@@ -28,6 +28,7 @@ class App extends Component {
         isSignedIn: false,
         currentUser: null,
         currentUserEmail: '',
+        isGuest: false,
       }
     };
   

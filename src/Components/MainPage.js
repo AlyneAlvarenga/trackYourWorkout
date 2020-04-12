@@ -31,7 +31,7 @@ class MainPage extends Component {
               <main className="mainPage">
                 <h1>Track Your Workouts</h1>
                 <p>Keep track of all your workout plans! Create multiple cards with as many exercises as you need. You can keep track of how many times you've completed the plan in each card, so you know when it's time to change your routine.</p>
-                <p>Log in or sign up to get started.</p>
+                <p>Log in or sign up to get started. To log in as a guest, <button className="guestLogin">click here</button>.</p>
                 <div className="formPage">
                   <div className="signUpContainer">
                     <h2>Sign Up</h2>
