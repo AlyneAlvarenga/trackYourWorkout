@@ -64,10 +64,9 @@ class App extends Component {
 
       }
     })
-
-    
   }
 
+  // when a user is logged in and wants to start adding exercises to create a card
   handleAddExercise = (e) => {
     e.preventDefault();
 
@@ -96,6 +95,7 @@ class App extends Component {
     }
   }
 
+  // when a user is logged in and wants to create a card 
   handleSubmit = async (event) => {
     event.preventDefault();
     
@@ -113,6 +113,7 @@ class App extends Component {
 
   }
 
+  // when a user is logged in, and clicked on the log workout button, this will remove the checkmark icon after two seconds
   removeCheckmark = (obj) => {
     setTimeout(() => {
       const updatedUserObjects = this.state.userObjects.map(userObject => {
@@ -133,6 +134,7 @@ class App extends Component {
     }, 2000)
   }
 
+  // when a user is logged in and clicks on log workout, this will update the counter in firebase, display the checkmark icon and trigger the function to remove the checkmark
   updateCounter = (objInState) => {
     const updatedUserObjects = this.state.userObjects.map(userObject => {
       const id = userObject.id;
@@ -156,6 +158,7 @@ class App extends Component {
     })
   }
 
+  // tracking inputs throughout the app and updating state
   handleChange = (e) => {
     const target = e.target;
     const value = target.value;
@@ -166,12 +169,26 @@ class App extends Component {
     })
   }
 
+  // when a user is logged in and wants to delete a card
   removeCard = (card) => {
     const dbRef = firebase.database().ref(`${this.state.currentUser}`);
 
     dbRef.child(card).remove();
   }
 
+  // when a user wants to sign in as a guest (anonymous)
+  handleAnonSignIn = () => {
+    firebase.auth().signInAnonymously().then(response => {
+      this.setState({
+        isGuest: true,
+      })
+      
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  // when a new user signs up
   handleSignUp = (e) => {
     e.preventDefault();
 
@@ -202,6 +219,7 @@ class App extends Component {
     });
   }
 
+  // when a returning user signs in
   handleSignIn = (e) => {
     e.preventDefault();
     
@@ -220,20 +238,21 @@ class App extends Component {
       })
       
     })
-
   }
 
+  // when a user is logged in and wants to log out
   handleLogOut = () => {
     firebase.auth().signOut();
 
     this.setState({
+      isGuest: false,
       isSignedIn: false,
       currentUserEmail: '',
       currentUser: null,
       userObjects: [],
     })
-
   }
+
 
   render() {
     return (
@@ -244,6 +263,7 @@ class App extends Component {
             <MainPage 
               state={this.state}
               handleChange={this.handleChange}
+              handleAnonSignIn={this.handleAnonSignIn}
               handleSignUp={this.handleSignUp}
               handleLogOut={this.handleLogOut}
               handleSignIn={this.handleSignIn}

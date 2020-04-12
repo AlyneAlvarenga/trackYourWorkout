@@ -27,7 +27,7 @@ function Header(props) {
             </div>
           : null
         }
-        <h3>You are logged in as {props.currentUserEmail}</h3>
+        <h3>You are logged in as {props.currentUserEmail ? props.currentUserEmail : "Guest"}</h3>
         <button onClick={startLogOut}>Log Out</button>
       </div>
     </header>

@@ -373,16 +373,19 @@ button[type="submit"] {
 .logWrapper {
   min-height: 500px;
   min-width: 550px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
   text-align: center;
   border: 2px solid var(--accentTurquoise);
 }
 
 .logWrapper h1 {
-  margin: 35px 0;
+  margin: 40px 0;
+}
+
+.logFlexContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
 }
 
 .eachLog {
