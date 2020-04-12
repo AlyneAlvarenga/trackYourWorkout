@@ -1,14 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import firebase from './firebase';
-import WorkoutCard from './WorkoutCard.js';
-import Logs from './Logs';
-import FormAndCards from './FormAndCards';
-import MainPage from './MainPage';
+import WorkoutCard from './Components/WorkoutCard.js';
+import Logs from './Components/Logs';
+import FormAndCards from './Components/FormAndCards';
+import MainPage from './Components/MainPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-import { FaCheckCircle } from 'react-icons/fa';
-import { IconContext } from "react-icons";
 
 class App extends Component {
   constructor() {
@@ -24,33 +21,52 @@ class App extends Component {
         weight: '',
         rest: '',
         isDisabled: false,
-        // isClicked: false,
+        signUpEmail: '',
+        signUpPassword: '',
+        signInEmail: '',
+        signInPassword: '',
+        isSignedIn: false,
+        currentUser: null,
+        currentUserEmail: '',
+        isGuest: false,
       }
     };
   
 
   componentDidMount() {
-    const dbRef = firebase.database().ref();
-    dbRef.on('value', (response) => {
-      const cardArray = [];
-      
-      response.forEach(item => {
-        cardArray.push({
-          id: item.key,
-          exercises: item.val().exercises,
-          title: item.val().exercises[0].workoutPlanName,
-          counter: item.val().counter,
-        })
-      })
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          isSignedIn: true,
+          currentUser: user.uid,
+          currentUserEmail: user.email,
+        }, () => {
+            const dbRef = firebase.database().ref(`${this.state.currentUser}`);
+            dbRef.on('value', (response) => {
+              const cardArray = [];
 
-      this.setState({
-        userObjects: cardArray,
-        tempObjects: [],
-        workoutPlanName: '',
-      })
-    });
+              response.forEach(item => {
+                cardArray.push({
+                  id: item.key,
+                  exercises: item.val().exercises,
+                  title: item.val().exercises[0].workoutPlanName,
+                  counter: item.val().counter,
+                })
+              })
+
+              this.setState({
+                userObjects: cardArray,
+                tempObjects: [],
+                workoutPlanName: '',
+              })
+            });
+        })
+
+      }
+    })
   }
 
+  // when a user is logged in and wants to start adding exercises to create a card
   handleAddExercise = (e) => {
     e.preventDefault();
 
@@ -79,13 +95,14 @@ class App extends Component {
     }
   }
 
+  // when a user is logged in and wants to create a card 
   handleSubmit = async (event) => {
     event.preventDefault();
     
     const dbRef = firebase.database();
 
     if (this.state.tempObjects.length >= 1) {
-      dbRef.ref().push({ exercises: this.state.tempObjects, counter: 0, isLogged: false});
+      dbRef.ref(`${this.state.currentUser}`).push({ exercises: this.state.tempObjects, counter: 0, isLogged: false});
   
       this.setState({
         isDisabled: false,
@@ -96,11 +113,14 @@ class App extends Component {
 
   }
 
+  // when a user is logged in, and clicked on the log workout button, this will remove the checkmark icon after two seconds
   removeCheckmark = (obj) => {
     setTimeout(() => {
       const updatedUserObjects = this.state.userObjects.map(userObject => {
         if (userObject.id === obj.id) {
-          firebase.database().ref(`${userObject.id}`).update({isLogged: false})
+          const id = userObject.id;
+
+          firebase.database().ref(`${this.state.currentUser}/${id}`).update({isLogged: false})
           return {
             ...userObject,
             isLogged: false,
@@ -114,10 +134,13 @@ class App extends Component {
     }, 2000)
   }
 
+  // when a user is logged in and clicks on log workout, this will update the counter in firebase, display the checkmark icon and trigger the function to remove the checkmark
   updateCounter = (objInState) => {
     const updatedUserObjects = this.state.userObjects.map(userObject => {
+      const id = userObject.id;
+
       if(userObject.id === objInState.id) {
-        firebase.database().ref(`${userObject.id}`).update({counter: userObject.counter + 1, isLogged: true});
+        firebase.database().ref(`${this.state.currentUser}/${id}`).update({counter: userObject.counter + 1, isLogged: true});
 
         return {
           ...userObject, 
@@ -135,6 +158,7 @@ class App extends Component {
     })
   }
 
+  // tracking inputs throughout the app and updating state
   handleChange = (e) => {
     const target = e.target;
     const value = target.value;
@@ -145,10 +169,88 @@ class App extends Component {
     })
   }
 
+  // when a user is logged in and wants to delete a card
   removeCard = (card) => {
-    const dbRef = firebase.database().ref();
+    const dbRef = firebase.database().ref(`${this.state.currentUser}`);
 
     dbRef.child(card).remove();
+  }
+
+  // when a user wants to sign in as a guest (anonymous)
+  handleAnonSignIn = () => {
+    firebase.auth().signInAnonymously().then(response => {
+      this.setState({
+        isGuest: true,
+      })
+      
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  // when a new user signs up
+  handleSignUp = (e) => {
+    e.preventDefault();
+
+    firebase.auth().createUserWithEmailAndPassword(this.state.signUpEmail, this.state.signUpPassword).then( (response) => {
+
+      this.setState({
+        signUpEmail: '',
+        signUpPassword: '',
+      })
+    }).catch(err => {
+      const errorCode = err.code;
+      const errorMessage = err.message;
+
+      if (errorCode === 'auth/weak-password') {
+        alert('The password is too weak. Please use at least 6 characters.');
+      } else if (errorCode === 'auth/email-already-in-use') {
+        alert('This email has already been used to sign up. Please sign in with your email and password.')
+      } else if (errorCode === 'auth/invalid-email') {
+        alert('Please use a valid email address');
+      } else {
+        alert(errorMessage);
+      }
+
+      this.setState({
+        signUpEmail: '',
+        signUpPassword: '',
+      })
+    });
+  }
+
+  // when a returning user signs in
+  handleSignIn = (e) => {
+    e.preventDefault();
+    
+    firebase.auth().signInWithEmailAndPassword(this.state.signInEmail, this.state.signInPassword).then(() => {
+        this.setState({
+          signInEmail: '',
+          signInPassword: '',
+        })
+
+    }).catch(() => {
+      alert('You have entered an invalid email and password combination. Please try again.');
+
+      this.setState({
+        signInEmail: '',
+        signInPassword: '',
+      })
+      
+    })
+  }
+
+  // when a user is logged in and wants to log out
+  handleLogOut = () => {
+    firebase.auth().signOut();
+
+    this.setState({
+      isGuest: false,
+      isSignedIn: false,
+      currentUserEmail: '',
+      currentUser: null,
+      userObjects: [],
+    })
   }
 
 
@@ -156,7 +258,18 @@ class App extends Component {
     return (
       <Router basename="/">
         <Switch>
-        <Route exact path="/trackYourWorkout" component={MainPage} />
+        <Route exact path="/trackYourWorkout" render={() => {
+          return (
+            <MainPage 
+              state={this.state}
+              handleChange={this.handleChange}
+              handleAnonSignIn={this.handleAnonSignIn}
+              handleSignUp={this.handleSignUp}
+              handleLogOut={this.handleLogOut}
+              handleSignIn={this.handleSignIn}
+            />
+          )
+        }} />
           
           <Route path="/workouts/" render={() => {
             return (
@@ -166,10 +279,10 @@ class App extends Component {
                   handleChange={this.handleChange}
                   handleAddExercise={this.handleAddExercise}
                   handleSubmit={this.handleSubmit}
+                  handleLogOut={this.handleLogOut}
                 />
                 <WorkoutCard
                   userObjects={this.state.userObjects}
-                  // isClicked={this.state.isClicked}
                   removeCard={this.removeCard}
                   updateCounter={this.updateCounter}
                 />
@@ -181,6 +294,8 @@ class App extends Component {
             return (
               <Logs
                 userObjects={this.state.userObjects}
+                handleLogOut={this.handleLogOut}
+                currentUserEmail={this.state.currentUserEmail}
               />
             )}} 
           />

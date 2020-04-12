@@ -11,7 +11,7 @@ class WorkoutCard extends Component {
     //map over the exercises array to display all exercises on the page
 
     return (
-      <div className="workoutCards">
+      <section className="workoutCards">
         { 
           this.props.userObjects.map(obj => {
             return (
@@ -44,7 +44,7 @@ class WorkoutCard extends Component {
             )
           })
         }
-      </div>
+      </section>
     )
   }
 }

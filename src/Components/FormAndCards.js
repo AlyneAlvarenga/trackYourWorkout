@@ -1,18 +1,15 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { FaArrowCircleLeft } from 'react-icons/fa';
-import { IconContext } from "react-icons";
+import Header from './Header';
 
 class FormAndCards extends Component {
   render() {
     return(
       <Fragment>
-        <div className="backToHomeWrapper">
-          <IconContext.Provider value={{ className: 'reactIcons' }}>
-            <Link to="/trackYourWorkout" className="backToHomeLink"><FaArrowCircleLeft /> Back</Link>
-          </IconContext.Provider>
-        </div>
-      <div className="wrapper">
+        <Header 
+          currentUserEmail={this.props.state.currentUserEmail}
+          handleLogOut={this.props.handleLogOut}
+        />
+      <section className="wrapper">
         <h1>Workout Plans</h1>
         <div className="instructions">
           <ul>
@@ -59,7 +56,7 @@ class FormAndCards extends Component {
             })
           }
         </div>
-      </div>
+      </section>
       </Fragment>
     )
   }
