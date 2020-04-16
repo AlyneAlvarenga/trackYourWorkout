@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import firebase from './firebase';
 import WorkoutCard from './Components/WorkoutCard.js';

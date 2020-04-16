@@ -11,7 +11,7 @@ function Logs(props) {
       <div className="flexContainerSignedIn">
         <div className="logWrapper">
         <h1>Log Counts</h1>
-          <div className="logFlexContainer">
+          <main className="logFlexContainer">
           {props.userObjects.map((obj) => {
             return (
               <div key={obj.id} id={obj.id} className="eachLog">
@@ -20,7 +20,7 @@ function Logs(props) {
               </div>
             )
           })}
-          </div>
+          </main>
         </div>
       </div>
     </Fragment>
