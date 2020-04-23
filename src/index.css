@@ -60,7 +60,7 @@ input:focus {
   box-shadow: 0 0 10px var(--accentTurquoise);
 }
 
-button, .mainPageLinks {
+button, .MainPage-links {
   color: white;
   border: 2px solid var(--accentPink);
   border-radius: 10px;
@@ -72,25 +72,14 @@ button, .mainPageLinks {
   cursor: pointer;
 }
 
-.mainPageLinks {
+.MainPage-links {
   text-decoration: none;
   font-size: 1.8rem;
 }
 
-button:hover, .mainPageLinks:hover, button:focus, .mainPageLinks:focus {
+button:hover, .MainPage-links:hover, button:focus, .MainPage-links:focus {
   color: var(--accentPink);
   border: 2px solid white;
-}
-
-.guestLogin {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  color: var(--accentTurquoise);
-}
-
-.guestLogin:hover {
-  border: none;
 }
 
 .reactIcons {
@@ -159,66 +148,6 @@ header button {
 
 .headerWrapper .backToHomeWrapper {
   grid-area: link;
-}
-
-/*** Main Page Styles ***/
-
-/* Sign in, Sign Up */
-
-.formPage {
-  margin-top: 30px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 25px;
-}
-
-.signUpSignInForm {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas: "email"
-                        "password"
-                        "signUpButton";
-}
-
-.signUpSignInForm input[type="email"] {
-  grid-area: email;
-}
-
-.signUpSignInForm input[type="password"] {
-  grid-area: password;
-}
-
-.signUpSignInForm button[type="submit"] {
-  grid-area: signUpButton;
-}
-
-.flexContainerLoggedOut, .flexContainerSignedIn {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.flexContainerSignedIn {
-  min-height: calc(100vh - 130px);
-}
-
-.flexContainerLoggedOut {
-  min-height: 100vh;
-}
-
-.mainPage {
-  max-width: 600px;
-  min-height: 600px;
-  padding: 20px;
-  margin: 0 auto;
-  text-align: center;
-  border: 4px double var(--accentTurquoise);
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  line-height: 1.5;
 }
 
 /*** FormAndCards Component ***/
@@ -469,27 +398,6 @@ button[type="submit"] {
   }
 }
 
-@media (max-width: 625px) {
-  /* MAIN PAGE */
-  .mainPage {
-    margin: 60px 0;
-    max-width: 400px;
-    min-height: auto;
-  }
-
-  .mainPageLinks {
-    margin-bottom: 20px;
-  }
-
-  .formPage {
-    grid-template-columns: 1fr;
-  }
-
-  .signUpContainer {
-    margin-bottom: 30px;
-  }
-}
-
 @media (max-width: 590px) {
   /* LOGS COMPONENT */
 
@@ -566,14 +474,6 @@ button[type="submit"] {
 
   .exerciseLine p {
     margin: 10px 0;
-  }
-}
-
-@media (max-width: 440px) {
-  /* MAIN PAGE */
-  .mainPage {
-    max-width: 300px;
-    min-height: 700px;
   }
 }
 
