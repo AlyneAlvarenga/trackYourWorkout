@@ -36,3 +36,27 @@ header button {
   }
 }
 
+@media (max-width: 880px) {
+  /* HEADER */
+  .headerWrapper {
+    grid-template-columns: 1fr;
+    grid-template-areas: "link"
+                          "text"
+                          "button";
+    grid-gap: 10px;
+  }
+
+  header h3 {
+    text-align: center;
+    margin: 15px 0 10px;
+  }
+
+  .headerWrapper button {
+    justify-self: center;
+    margin-bottom: 20px;
+  }
+
+  .backToHomeWrapper {
+    margin: 20px auto 0;
+  }
+}
