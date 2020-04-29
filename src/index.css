@@ -120,7 +120,7 @@ button:hover, .MainPage-links:hover, button:focus, .MainPage-links:focus {
 
 /*** Header Styles ***/
 
-header {
+/* header {
   border-bottom: 1px solid white;
   min-height: 80px;
   margin-bottom: 50px;
@@ -148,7 +148,7 @@ header button {
 
 .headerWrapper .backToHomeWrapper {
   grid-area: link;
-}
+} */
 
 /*** FormAndCards Component ***/
 
