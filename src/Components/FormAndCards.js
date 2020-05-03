@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Header from './Header';
+import './FormAndCards.css';
 
 class FormAndCards extends Component {
   render() {
