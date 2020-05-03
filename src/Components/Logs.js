@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react';
 import Header from './Header';
+import './Logs.css';
 
 function Logs(props) {
   return (
@@ -8,7 +9,7 @@ function Logs(props) {
         handleLogOut={props.handleLogOut}
         currentUserEmail={props.currentUserEmail}
       />
-      <div className="flexContainerSignedIn">
+      <div className="MainPage-signedInContainer">
         <div className="logWrapper">
         <h1>Log Counts</h1>
           <main className="logFlexContainer">
