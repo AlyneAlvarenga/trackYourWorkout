@@ -1,0 +1,158 @@
+.instructions {
+  align-self: center;
+  max-width: 800px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.createCard {
+  align-self: center;
+  padding: 50px 70px;
+  border: 4px solid var(--accentTurquoise);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exerciseLine {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: 250px repeat(3, 60px);
+  grid-gap: 10px;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr repeat(5, auto) 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: ". workoutPlanLabel workoutPlan workoutPlan workoutPlan workoutPlan ."
+                        ". exercise sets reps weight rest ."
+                        ". exerciseButton . . button button .";
+  grid-gap: 15px;
+  justify-content: center;
+}
+
+.workoutPlanLabel {
+  grid-area: workoutPlanLabel;
+  font-size: 1.8rem;
+  align-self: center;
+  text-align: center;
+}
+
+#workoutPlan {
+  grid-area: workoutPlan;
+}
+
+#exercise {
+  grid-area: exercise;
+  min-width: 250px;
+}
+
+#numberOfSets {
+  grid-area: sets;
+  max-width: 90px;
+}
+
+#numberOfReps {
+  grid-area: reps;
+  max-width: 90px;
+}
+
+#howMuchWeight {
+  grid-area: weight;
+  max-width: 90px;
+}
+
+#restDuration {
+  grid-area: rest;
+  max-width: 90px;
+}
+
+button[type="submit"] {
+  grid-area: button;
+}
+
+.addExerciseButton {
+  grid-area: exerciseButton;
+  align-self: center;
+}
+
+@media (max-width: 880px) {
+
+  /* FORM AND CARDS COMPONENT */
+  .instructions {
+    max-width: 80%;
+  }
+
+  .createCard {
+    padding: 45px 20px;
+  }
+}
+
+@media (max-width: 780px) {
+    .instructions {
+    max-width: 75%;
+  }
+
+  form {
+    grid-template-columns: repeat(2, auto);
+    grid-template-areas: "workoutPlanLabel workoutPlan"
+                        "exercise exercise"
+                        "sets reps"
+                        "weight rest"
+                        "exerciseButton exerciseButton"
+                        "button button";
+    grid-gap: 20px;
+  }
+
+  #numberOfSets, #numberOfReps, #howMuchWeight, #restDuration {
+    max-width: min-content;
+  }
+
+  .exerciseLine {
+    grid-template-columns: 200px repeat(3, 60px);
+  }
+}
+
+@media (max-width: 475px) {
+  /* FORM AND CARDS COMPONENT */
+  .wrapper h1 {
+    margin-top: 80px;
+  }
+
+  .instructions {
+    max-width: 85%;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+    grid-template-areas: "workoutPlanLabel"
+                        "workoutPlan"
+                        "exercise"
+                        "sets"
+                        "reps"
+                        "weight"
+                        "rest"
+                        "exerciseButton"
+                        "button";
+    grid-gap: 20px;
+  }
+
+  #numberOfSets, #numberOfReps, #howMuchWeight, #restDuration {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .exerciseLine {
+    grid-template-columns: 1fr;
+    border-top: 1px dotted white;
+  }
+
+  .exerciseLine p {
+    margin: 10px 0;
+  }
+}

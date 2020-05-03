@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaArrowCircleLeft } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 import { useLocation, useHistory } from 'react-router-dom';
+import './Header.css';
 
 function Header(props) {
 

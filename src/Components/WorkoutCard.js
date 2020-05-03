@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { FaRegTimesCircle, FaCheckCircle } from 'react-icons/fa';
 import { IconContext } from "react-icons";
+import './WorkoutCard.css';
 
 class WorkoutCard extends Component {
 

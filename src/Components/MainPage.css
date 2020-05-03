@@ -1,0 +1,93 @@
+.MainPage {
+  max-width: 600px;
+  min-height: 600px;
+  padding: 20px;
+  margin: 0 auto;
+  text-align: center;
+  border: 4px double var(--accentTurquoise);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  line-height: 1.5;
+}
+
+.MainPage-loggedOutContainer, .MainPage-signedInContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.MainPage-signedInContainer {
+  min-height: calc(100vh - 130px);
+}
+
+.MainPage-loggedOutContainer {
+  min-height: 100vh;
+}
+
+.MainPage-guestLogInButton {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: var(--accentTurquoise);
+}
+
+.MainPage-guestLogInButton:hover {
+  border: none;
+}
+
+.MainPage-formsContainer {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 25px;
+}
+
+.MainPage-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "email"
+                        "password"
+                        "signUpButton";
+}
+
+.MainPage-form input[type="email"] {
+  grid-area: email;
+}
+
+.MainPage-form input[type="password"] {
+  grid-area: password;
+}
+
+.MainPage-form button[type="submit"] {
+  grid-area: signUpButton;
+}
+
+@media (max-width: 625px) {
+  .MainPage {
+    margin: 60px 0;
+    max-width: 400px;
+    min-height: auto;
+  }
+
+  .MainPage-links {
+    margin-bottom: 20px;
+  }
+
+  .MainPage-formsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .MainPage-signUpFormContainer {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 440px) {
+  .MainPage {
+    max-width: 300px;
+    min-height: 700px;
+  }
+}

@@ -1,0 +1,62 @@
+header {
+  border-bottom: 1px solid white;
+  min-height: 80px;
+  margin-bottom: 50px;
+}
+
+header button {
+  padding: 15px;
+}
+
+.headerWrapper {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  grid-template-areas: "link . text button";
+  grid-gap: 25px;
+  align-items: center;
+}
+
+.headerWrapper h3 {
+  grid-area: text;
+}
+
+.headerWrapper button {
+  grid-area: button;
+}
+
+.headerWrapper .backToHomeWrapper {
+  grid-area: link;
+}
+
+
+@media (max-width: 1460px) {
+  /* HEADER */
+  .headerWrapper {
+    width: 85%;
+  }
+}
+
+@media (max-width: 880px) {
+  /* HEADER */
+  .headerWrapper {
+    grid-template-columns: 1fr;
+    grid-template-areas: "link"
+                          "text"
+                          "button";
+    grid-gap: 10px;
+  }
+
+  header h3 {
+    text-align: center;
+    margin: 15px 0 10px;
+  }
+
+  .headerWrapper button {
+    justify-self: center;
+    margin-bottom: 20px;
+  }
+
+  .backToHomeWrapper {
+    margin: 20px auto 0;
+  }
+}
